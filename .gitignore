@@ -1,3 +1,5 @@
 composer*
 composer*.*
+vendor
+vendor/*
 
