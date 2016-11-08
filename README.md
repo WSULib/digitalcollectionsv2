@@ -17,3 +17,14 @@ To run the application in development, you can also run this command:
 Run this command to run the test suite:
 
     composer test
+
+## Troubleshooting
+
+Full composer reset:
+
+    composer self-update
+    composer diagnose
+    composer update -v
+    rm -rf vendor/
+    composer update -v
+
