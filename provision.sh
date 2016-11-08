@@ -8,7 +8,5 @@ sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === 'aa96f26c2b67226a
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 sudo php -r "unlink('composer-setup.php');"
 
-# install slim framework with composer
-# http://www.slimframework.com/docs/start/installation.html
-echo "install slim..."
-composer require slim/slim "^3.0"
+# install dependencies via composer
+composer update
