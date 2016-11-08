@@ -22,7 +22,7 @@ $container['logger'] = function ($c) {
 $container['view'] = function ($c) {
 	$settings = $c->get('settings')['renderer'];
     $view = new \Slim\Views\Twig($settings['template_path'], [
-        'cache' => 'path/to/cache'
+        'cache' => 'cache'
     ]);
 
     // Instantiate and add Slim specific extension
