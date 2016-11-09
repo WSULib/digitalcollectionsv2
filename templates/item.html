@@ -36,7 +36,6 @@ query = "";
 <body>
 
 
-
 <div id="header">
 	<a id="header-logo" href="http://test2.lib.wayne.edu/digitalcollections">
 		<div id="header-logo-top">
@@ -63,14 +62,14 @@ query = "";
 
 <div id="viewer">
 	<div id="viewer-nest">
-		<img src="https://digital.library.wayne.edu/loris/fedora:"{{data.response.docs[0].id}}"%7CPREVIEW/full/full/0/default.jpg" />
+		<img src="https://digital.library.wayne.edu/loris/fedora:{{data.solrSearch.response.docs[0].id}}%7CPREVIEW/full/full/0/default.jpg" />
 	</div>
 </div>
 
 
 <div id="details">
 	<div id="details-nest">
-		<h1>Boy's Suit, 1940</h1>
+		<h1>{{data.solrSearch.response.docs[0].dc_title[0]}}</h1>
 <!-- 		<div>
 			According to the donor, this suit was worn by Richard Royhans Johnson for his first communion, most likely at Visitation Church in Highland Park, Michigan (Johnson was born in Marion, Indiana in the spring of 1941 or 1942). It is a nice example of a shorts suit for a boy moving up from a knicker suit.		</div> -->
 		<div id="details-nest-left">
@@ -79,15 +78,15 @@ query = "";
 				<div>Subjects:</div>Suits (Clothing) Jackets Shorts (Clothing) Boys' Clothing Children's clothing Johnson, Richard Royhans			</div> -->
 			<div>
 				<div class="label">Resource Type</div>
-				<a href="#">three dimensional object</a>
+				<a href="#">{{data.solrSearch.response.docs[0].mods_resource_type_ms[0]}}</a>
 			</div>
 			<div>
 				<div class="label">Collection</div>
-				<a href="#">Digital Dress Collection</a>
+				<a href="#">{{data.solrSearch.response.docs[0].mods_host_title_ms[0]}}</a>
 			</div>
 			<div>
 				<div class="label">Date</div>
-				<a href="#">1940</a>
+				<a href="#">{{data.solrSearch.response.docs[0].mods_key_date_year[0]}}</a>
 			</div>
 			<div>
 				<div class="label">Creator</div>
@@ -95,7 +94,7 @@ query = "";
 			</div>
 			<div>
 				<div class="label">Size</div>
-				<a href="#">121.9MiB</a>
+				<a href="#">{{data.solrSearch.response.docs[0].obj_size_human[0]}}</a>
 			</div>
 		</div>
 		<div id="details-nest-right">
@@ -127,48 +126,45 @@ query = "";
 	<div id="item-data-nest">
 		<div id="item-data-left">
 			<h1>Item Data</h1>
-							<div>
+				<div>
 					<div class="label">Title</div>
-					<div>Boy's Suit, 1940</div>
+					<div>{{data.solrSearch.response.docs[0].dc_title[0]}}</div>
 				</div>
-										<div>
+				<div>
 					<div class="label">Collection</div>
-					<a href="#">Digital Dress Collection</a>
+					<a href="#">{{data.solrSearch.response.docs[0].mods_host_title_ms[0]}}</a>
 				</div>
-										<div>
+				<div>
 					<div class="label">Subjects</div>
 					<div>
-													<div><a href="#">Suits (Clothing)</a></div>
-													<div><a href="#">Jackets</a></div>
-													<div><a href="#">Shorts (Clothing)</a></div>
-													<div><a href="#">Boys' Clothing</a></div>
-													<div><a href="#">Children's clothing</a></div>
-													<div><a href="#">Johnson, Richard Royhans</a></div>
-											</div>
+					{% for subject in data.solrSearch.response.docs[0].dc_subject %}
+						<div><a href="#">{{subject}}</a></div>
+					{% endfor %}
+					</div>
 				</div>
-													<div>
+				<div>
 					<div class="label">Date</div>
-					<a href="#">1940</a>
+					<a href="#">{{data.solrSearch.response.docs[0].mods_key_date_year[0]}}</a>
 				</div>
-													<div>
+				<div>
 					<div class="label">Identifier</div>
-					<div>wayne:EM02_90_88_1</div>
+					<div>{{data.solrSearch.response.docs[0].id[0]}}</div>
 				</div>
-										<div>
+				<div>
 					<div class="label">Resource Type</div>
-					<div>three dimensional object</div>
+					<div>{{data.solrSearch.response.docs[0].mods_resource_type_ms[0]}}</div>
 				</div>
-										<div>
+				<div>
 					<div class="label">Content Type</div>
-					<div>PhysicalObject</div>
+					<div>{{data.solrSearch.response.docs[0].dc_type[0]}}</div>
 				</div>
-										<div>
+				<div>
 					<div class="label">Size</div>
-					<div>121.9MiB</div>
+					<div>{{data.solrSearch.response.docs[0].obj_size_human[0]}}</div>
 				</div>
-										<div>
+				<div>
 					<div class="label">Note</div>
-					<div>Gift of Patricia L. Johnson</div>
+					<div>{{data.solrSearch.response.docs[0].mods_otherFormat_note_ms[0]}}</div>
 				</div>
 					</div>
 		<div id="item-data-right">
@@ -176,17 +172,17 @@ query = "";
 			<div>
 				<div class="label">MLA FORMAT</div>
 				<div class="cite">
-					, Wayne State University Library. "Boy's Suit, 1940" <i>Wayne State University Library Digital Collections</i>. 1940. http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1				</div>
+					, Wayne State University Library. "Boy's Suit, 1940" <i>Wayne State University Library Digital Collections</i>. 1940. http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1</div>
 			</div>
 			<div>
 				<div class="label">APA FORMAT</div>
 				<div class="cite">
-					, Wayne State University Library. (1940). Boy's Suit, 1940. Retrieved from http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1				</div>
+					, Wayne State University Library. (1940). Boy's Suit, 1940. Retrieved from http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1</div>
 			</div>
 			<div>
 				<div class="label">CHICAGO/TURABIAN FORMAT</div>
 				<div class="cite">
-					, Wayne State University Library. "Boy's Suit, 1940" Wayne State University Library Digital Collections. Accessed November 8, 2016. http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1				</div>
+					, Wayne State University Library. "Boy's Suit, 1940" Wayne State University Library Digital Collections. Accessed November 8, 2016. http://digital.library.wayne.edu/digitalcollections/item?id=wayne:EM02_90_88_1</div>
 			</div>
 			<div>
 				<div class="label">WIKIPEDIA CITATION</div>
