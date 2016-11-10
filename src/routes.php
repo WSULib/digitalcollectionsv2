@@ -1,45 +1,29 @@
 <?php
 // Routes
 
-$app->get('/', function ($req, $response, $args) {
-    $this->logger->warning('Foo');
-    $this->logger->error('Bar');
-  // return $response->withStatus(302)->withHeader('Location', '/digitalcollections');
-});
-
-// Test routes //////
-// Generic named route
-$app->get('/hello/{name}', function ($request, $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("Hello, $name");
-
-    return $response;
-});
-
-$app->get('/test/[{myvar}]', function ($request, $response, $args = []) {
-    $myvar1 = $request->getParam('myvar'); //checks both _GET and _POST [NOT PSR-7 Compliant]
-    $myvar2 = $request->getParsedBody()['myvar']; //checks _POST  [IS PSR-7 compliant]
-    $myvar3 = $request->getQueryParams()['myvar']; //checks _GET [IS PSR-7 compliant]
-    $response->getBody()->write($myvar3);
-    // echo $myvar3;
-    return $response;
-});
-// END test routes /////////
+$app->get('/', 'HTTPRequestController:hello');
 
 // SEARCH VIEW
 $app->get('/search/{query}', function ($request, $response, $args) {
-    $response = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[query]&start=0&rows=1&wt=json
+    $guzzle = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[query]&start=0&rows=1&wt=json
 &functions%5B%5D=solrSearch");
-    $args['data'] = json_decode($res->getBody(), true);
+    $args['data'] = json_decode($guzzle->getBody(), true);
 
     return $this->view->render($response, 'item.html', $args);
 });
 
-// ITEM VIEW
+// COLLECTIONS VIEW
+$app->get('/collections/[{query}]', function ($request, $response, $args = []) {
+    // request data from API
+    $response = $request->getQueryParam('query', $default = null);
+    return $response;
+})->add($test);
+
+// SINGLE ITEM/RECORD VIEW
 $app->get('/item/{pid}', function ($request, $response, $args) {
-    $response = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json
+    $guzzle = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json
 &functions%5B%5D=solrSearch");
-    $args['data'] = json_decode($res->getBody(), true);
+    $args['data'] = json_decode($guzzle->getBody(), true);
 
     return $this->view->render($response, 'item.html', $args);
 });
@@ -84,9 +68,13 @@ $app->get('/item/{pid}/xml', function ($request, $response, $args) {
     return $response;
 });
 
-// LOGIN
+// User
 $app->get('/login', function ($req, $response, $args) {
     return $this->view->render($response, 'login.html', $args);
+});
+
+$app->get('/logout', function ($req, $response, $args) {
+    return $response->withStatus(302)->withHeader('Location', '/auth/logout');
 });
 
 $app->group('/auth', function () {

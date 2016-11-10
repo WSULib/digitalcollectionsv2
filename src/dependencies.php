@@ -33,3 +33,7 @@ $container['guzzle'] = function ($c) {
 
     return $guzzle;
 };
+
+$container[App\Controllers\HTTPRequestController::hello] = function ($c) {
+    return new App\Action\HomeAction($c->get('view'), $c->get('logger'));
+};

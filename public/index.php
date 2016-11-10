@@ -11,13 +11,6 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
-// Note: If writing classes, uncomment below and add them into /src/classes
-// spl_autoload_register(function ($classname) {
-//     require ("../classes/" . $classname . ".php");
-// });
-
-
 session_start();
 
 // Instantiate the app
@@ -32,6 +25,9 @@ require __DIR__ . '/../src/middleware.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
+
+// Register controllers
+// require __DIR__ . '/../src/Controllers/';
 
 // Run app
 $app->run();
