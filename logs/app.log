@@ -1,0 +1,2 @@
+[2016-11-10 14:45:53] slim-app.WARNING: Foo [] {"uid":"55a5f0e"}
+[2016-11-10 14:45:53] slim-app.ERROR: Bar [] {"uid":"55a5f0e"}

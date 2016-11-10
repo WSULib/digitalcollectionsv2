@@ -5,9 +5,10 @@ namespace Tests\Functional;
 class MetadataTest extends BaseTestCase
 {
 
-    /**
-     * Test that the /item/{pid}/metadata route returns correct header
-     */
+/**
+ * [testGetJSONMetadata description]
+ * @return [type]
+ */
     public function testGetJSONMetadata()
     {
         $response = $this->runApp('GET', '/item/wayne:EM02_90_88_1/metadata');
@@ -15,5 +16,4 @@ class MetadataTest extends BaseTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertContains('application/json', (string)$response->getHeaderLine('Content-type'));
     }
-
 }

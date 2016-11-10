@@ -9,15 +9,16 @@ $container['logger'] = function ($c) {
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+
     return $logger;
 };
 
 // Register Twig View helper
 $container['view'] = function ($c) {
-	$settings = $c->get('settings')['renderer'];
+    $settings = $c->get('settings')['renderer'];
     $view = new \Slim\Views\Twig($settings['template_path'], [
         'cache' => false,
-        'enableAutoReload' => true
+        'enableAutoReload' => true,
     ]);
 
     // Instantiate and add Slim specific extension
@@ -29,5 +30,6 @@ $container['view'] = function ($c) {
 
 $container['guzzle'] = function ($c) {
     $guzzle = new \GuzzleHttp\Client();
+
     return $guzzle;
 };

@@ -12,7 +12,6 @@ class HomepageTest extends BaseTestCase
         $response = $this->runApp('GET', '/');
 
         $this->assertEquals(302, $response->getStatusCode());
-
     }
 
     /**
