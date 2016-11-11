@@ -34,7 +34,7 @@ $container['guzzle'] = function ($c) {
     return $request;
 };
 
-$container['HTTPRequest'] = function ($c) {
-    include('Services/HTTPRequest.php');
-    return new HTTPRequestController();
+$container['APIRequest'] = function ($c) {
+    include('Services/APIRequest.php');
+    return new APIRequest();
 };
