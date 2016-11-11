@@ -29,11 +29,12 @@ $container['view'] = function ($c) {
 };
 
 $container['guzzle'] = function ($c) {
-    $guzzle = new \GuzzleHttp\Client();
+    $request = new \GuzzleHttp\Client();
 
-    return $guzzle;
+    return $request;
 };
 
-$container[App\Controllers\HTTPRequestController::hello] = function ($c) {
-    return new App\Action\HomeAction($c->get('view'), $c->get('logger'));
+$container['HTTPRequest'] = function ($c) {
+    include('Services/HTTPRequest.php');
+    return new HTTPRequestController();
 };
