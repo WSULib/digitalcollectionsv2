@@ -1,2 +1,27 @@
 [2016-11-10 14:45:53] slim-app.WARNING: Foo [] {"uid":"55a5f0e"}
 [2016-11-10 14:45:53] slim-app.ERROR: Bar [] {"uid":"55a5f0e"}
+[2016-11-15 17:36:39] slim-app.INFO: Request took 0.010350227355957 [] {"uid":"0525c6b"}
+[2016-11-15 17:37:34] slim-app.INFO: Request took 0.0082979202270508 [] {"uid":"34e8144"}
+[2016-11-15 17:38:06] slim-app.INFO: Request took 0.0063540935516357 [] {"uid":"fd0734c"}
+[2016-11-15 17:38:45] slim-app.INFO: Request took 0.0064411163330078 [] {"uid":"389fef5"}
+[2016-11-15 17:38:52] slim-app.INFO: Request took 0.0064659118652344 [] {"uid":"b6221be"}
+[2016-11-15 19:25:26] slim-app.INFO: Request took 0.026376962661743 [] {"uid":"cef9699"}
+[2016-11-15 19:58:44] slim-app.INFO: Request took 0.010169982910156 [] {"uid":"fb7790e"}
+[2016-11-15 19:58:55] slim-app.INFO: Request took 0.0067470073699951 [] {"uid":"710ed3a"}
+[2016-11-15 19:59:09] slim-app.INFO: Request took 0.0068202018737793 [] {"uid":"0b3b127"}
+[2016-11-15 20:00:01] slim-app.INFO: Request took 0.0059292316436768 [] {"uid":"65ba8e7"}
+[2016-11-15 20:00:02] slim-app.INFO: Request took 0.0068809986114502 [] {"uid":"781f57b"}
+[2016-11-15 21:19:26] slim-app.INFO: Request took 0.016793966293335 [] {"uid":"10c59aa"}
+[2016-11-15 21:19:27] slim-app.INFO: Request took 0.0066030025482178 [] {"uid":"4fbdbc4"}
+[2016-11-15 21:20:48] slim-app.INFO: Request took 0.063535928726196 [] {"uid":"309ab65"}
+[2016-11-15 21:21:24] slim-app.INFO: Request took 0.079833984375 [] {"uid":"2f3dc9c"}
+[2016-11-15 21:22:03] slim-app.INFO: Request took 0.084017992019653 [] {"uid":"0147802"}
+[2016-11-15 21:24:09] slim-app.INFO: Request took 0.12944602966309 [] {"uid":"437abcc"}
+[2016-11-15 21:24:10] slim-app.INFO: Request took 0.062429904937744 [] {"uid":"04b3f5f"}
+[2016-11-15 21:24:51] slim-app.INFO: Request took 0.068087100982666 [] {"uid":"cffb455"}
+[2016-11-15 21:24:51] slim-app.INFO: Request took 0.068276166915894 [] {"uid":"547ff1b"}
+[2016-11-15 21:25:03] slim-app.INFO: Request took 0.069477081298828 [] {"uid":"71294a1"}
+[2016-11-15 21:26:47] slim-app.INFO: Request took 0.078957080841064 [] {"uid":"4f82456"}
+[2016-11-15 21:26:49] slim-app.INFO: Request took 0.068383932113647 [] {"uid":"b37fb61"}
+[2016-11-15 21:26:49] slim-app.INFO: Request took 0.068315982818604 [] {"uid":"9ab33cc"}
+[2016-11-15 21:26:50] slim-app.INFO: Request took 0.069172859191895 [] {"uid":"55c4abd"}

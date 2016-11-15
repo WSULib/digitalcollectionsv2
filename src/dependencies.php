@@ -35,6 +35,6 @@ $container['guzzle'] = function ($c) {
 };
 
 $container['APIRequest'] = function ($c) {
-    include('Services/APIRequest.php');
-    return new APIRequest();
+    $API = new \App\Services\APIRequest($c['logger'],$c['guzzle']);
+    return $API; 
 };

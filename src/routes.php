@@ -24,9 +24,10 @@ $app->get('/collections/[{query}]', function ($request, $response, $args = []) {
 
 // SINGLE ITEM/RECORD VIEW
 $app->get('/item/{pid}', function ($request, $response, $args) {
-    $guzzle = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json
-&functions%5B%5D=solrSearch");
-    $args['data'] = json_decode($guzzle->getBody(), true);
+    $response = $this->APIRequest->get("/item/$args[pid]");
+    // $guzzle = $this->guzzle->request('GET', "http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json
+// &functions%5B%5D=solrSearch");
+    $args['data'] = json_decode($response->getBody(), true);
 
     return $this->view->render($response, 'item.html', $args);
 });
@@ -34,7 +35,7 @@ $app->get('/item/{pid}', function ($request, $response, $args) {
 // DATA DISPLAY
 // JSON data display
 $app->get('/item/{pid}/metadata', function ($request, $response, $args) {
-    $this->HTTPRequest->get('http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json&functions%5B%5D=solrSearch');
+    $this->APIRequest->get('?q=$args[pid]&start=0&rows=1&wt=json&functions%5B%5D=solrSearch');
     // $response = $this->guzzle->get("http://digital.library.wayne.edu/WSUAPI?q=$args[pid]&start=0&rows=1&wt=json&functions%5B%5D=solrSearch");
     // seamlessly passes through JSON response and headers...?
     return $response;

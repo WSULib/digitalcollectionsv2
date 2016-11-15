@@ -2,43 +2,45 @@
 /**
  * HTTPRequest class
  * Modeled after Eulfedora's HTTP_API_Base--https://github.com/emory-libraries/eulfedora/blob/master/eulfedora/api.py#L52-L147
+ * @method [name]([[type] [parameter]<, ...>]) [<description>]
  */
 
 // see 
 // Generic Template inspired by: 
 // http://www.php-fig.org/psr/psr-2/
-// namespace App\Services;
+namespace App\Services;
 
+use Monolog\Logger;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
 class APIRequest
 {
-    // protected $client;
+    protected $client;
+    public $base_url = "http://192.168.42.5/WSUAPI";
+    public $username;
+    public $password;
 
-    public function __constructor($base_url, $username = null, $password = null)
+    // public function __construct($base_url, $username = null, $password = null)
+    public function __construct(Logger $logger, Client $client)
     {
-        // Stuff to do about sessions go here
-        $this->username = $username;
-        $this->password = $password;
-        $this->base_url = $base_url;
+        // Future Stuff to do about sessions go here
+        $this->logger = $logger;
+        $this->client = $client;
+        // $this->username = $username;
+        // $this->password = $password;
+        // $this->base_url = $base_url;
     }
 
     private function request($type)
     {
-        // a generic client
-        $this->$client = new Client([
-            'url' => $this->$base_url
-            ]);
 
         // Use logger to log activity
-        $logger = $this->get('logger');
-
         $start = microtime(true);
-        $response = $this->$client->request($type);
+        $response = $this->client->request($type, $this->base_url);
         $time_spent = microtime(true) - $start;
-        $logger->info("Request took $time_spent");
-        return $time_spent;
+        $this->logger->info("Request took $time_spent");
+        return $response;
 
         // $logger->error('An error occurred');
         // $logger->critical('I left the oven on!', array(
@@ -46,24 +48,25 @@ class APIRequest
         // 'cause' => 'in_hurry',
     }
 
-    public function get()
+    public function get($view,$args=null)
     {
+        $this->base_url = $this->base_url.$view;
         return $this->request('GET');
     }
 
     public function post()
     {
-        return $this->request('POST');
+        return $this->request($base_url, 'POST');
     }
 
     public function put()
     {
-        return $this->request('PUT');
+        return $this->request($base_url, 'PUT');
     }
 
     public function head()
     {
-        return $this->request('HEAD');
+        return $this->request($base_url, 'HEAD');
     }
 
     public function delete()
