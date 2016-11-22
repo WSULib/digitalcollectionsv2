@@ -18,7 +18,8 @@ $app->get('/search', function ($request, $response, $args) {
 // COLLECTIONS VIEW
 $app->get('/collections/[{pid}]', function ($request, $response, $args = []) {
     $api = $this->APIRequest->get("/collections/$args[pid]",$request->getQueryParams());
-    return $api;
+    // $args['data'] = json_decode($api->getBody(), true);
+    // return $this->view->render($response, 'search.html', $args);
 })->add($testMiddleware);
 
 // SINGLE ITEM/RECORD VIEW
