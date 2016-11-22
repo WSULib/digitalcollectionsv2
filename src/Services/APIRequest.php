@@ -1,13 +1,10 @@
 <?php
 /**
- * HTTPRequest class
+ * APIRequest class
  * Modeled after Eulfedora's HTTP_API_Base--https://github.com/emory-libraries/eulfedora/blob/master/eulfedora/api.py#L52-L147
  * @method [name]([[type] [parameter]<, ...>]) [<description>]
  */
 
-// see 
-// Generic Template inspired by: 
-// http://www.php-fig.org/psr/psr-2/
 namespace App\Services;
 
 use Monolog\Logger;
@@ -21,25 +18,31 @@ class APIRequest
     public $username;
     public $password;
 
-    // public function __construct($base_url, $username = null, $password = null)
     public function __construct(Logger $logger, Client $client)
     {
         // Future Stuff to do about sessions go here
         $this->logger = $logger;
         $this->client = $client;
-        // $this->username = $username;
-        // $this->password = $password;
-        // $this->base_url = $base_url;
     }
 
-    private function request($type)
+    private function request($type,$params=null)
     {
+
+        // PLACEHOLDER to sniff out if debug flag was set
+        // http://docs.guzzlephp.org/en/latest/request-options.html
 
         // Use logger to log activity
         $start = microtime(true);
-        $response = $this->client->request($type, $this->base_url);
+        $response = $this->client->request($type, $this->base_url, $params);
         $time_spent = microtime(true) - $start;
         $this->logger->info("Request took $time_spent");
+
+        // parse status code
+        $httpStatus = $response->getStatusCode();
+        if ($httpStatus == 456) {
+            // perhaps some special response if API returns a custom HTTP response code
+        }
+
         return $response;
 
         // $logger->error('An error occurred');
@@ -48,29 +51,32 @@ class APIRequest
         // 'cause' => 'in_hurry',
     }
 
-    public function get($view,$args=null)
+    public function get($view,$params=null)
     {
+        $params = ['query' => $params];
         $this->base_url = $this->base_url.$view;
-        return $this->request('GET');
+        return $this->request('GET',$params);
     }
 
-    public function post()
+    public function post($view,$params=null)
     {
-        return $this->request($base_url, 'POST');
+        $params = ['form_params' => $params];
+        $this->base_url = $this->base_url.$view;
+        return $this->request('POST',$params);
     }
 
     public function put()
     {
-        return $this->request($base_url, 'PUT');
+        return $this->request('PUT',$params);
     }
 
     public function head()
     {
-        return $this->request($base_url, 'HEAD');
+        return $this->request('HEAD',$params);
     }
 
     public function delete()
     {
-        return $this->request($stuff);
+        return $this->request('DELETE',$params);
     }
 }

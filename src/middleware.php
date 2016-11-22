@@ -13,19 +13,17 @@
 /**
  * Test Data Display - Route middleware
  *
- * @param  \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
- * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
- * @param  callable                                 $next     Next middleware
+ * @param  \Slim\Http\Request 		$request  PSR7 request
+ * @param  \Slim\Http\Response      $response PSR7 response
+ * @param  callable                 $next     Next middleware
  *
- * @return \Psr\Http\Message\ResponseInterface
+ * @return \Slim\Http\Response
  */
 
-// use \Slim\Http\Request;
-// use \Slim\Http\Response;
-// use \Psr\Http\Message\ResponseInterface;
-// use \Psr\Http\Message\ServerRequestInterface;
+use \Slim\Http\Request;
+use \Slim\Http\Response;
 
-$test = function ($request, $response, $next) {
+$testMiddleware = function (Request $request, Response $response, $next) {
     $response->getBody()->write('<pre>');
     $response = $next($request, $response);
     $response->getBody()->write('</pre>');

@@ -1,4 +1,4 @@
 /vendor/
-/logs/log.app
-!/logs/README.md
+/logs/*
 /cache/
+!/logs/README.md
