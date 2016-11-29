@@ -1,8 +1,10 @@
 <?php
 /**
  * APIRequest class
- * Modeled after Eulfedora's HTTP_API_Base--https://github.com/emory-libraries/eulfedora/blob/master/eulfedora/api.py#L52-L147
- * @method [name]([[type] [parameter]<, ...>]) [<description>]
+ * A direct method by which to communicate with the WSUDOR API. Harnesses Guzzle and Monolog to communicate and log activity.
+ * Modeled after Eulfedora's HTTP_API_Base
+ * @param  object $logger the logging interface
+ * @param  object $client the guzzle client instance
  */
 
 namespace App\Services;
@@ -25,13 +27,21 @@ class APIRequest
         $this->client = $client;
     }
 
+    /**
+     * Make an HTTP request to WSUDOR API
+     * Note: private method
+     *
+     * @param  string $type An HTTP 1.1 Methods (GET, POST, etc)
+     * @param  array|null $params an optional series of HTTP parameters
+     */
+
     private function request($type,$params=null)
     {
 
         // PLACEHOLDER to sniff out if debug flag was set
         // http://docs.guzzlephp.org/en/latest/request-options.html
 
-        // Use logger to log activity
+        // logger interface logs activity; indicate log level through logger->info, error, or critical
         $start = microtime(true);
         $response = $this->client->request($type, $this->base_url, $params);
         $time_spent = microtime(true) - $start;
@@ -45,12 +55,14 @@ class APIRequest
 
         return $response;
 
-        // $logger->error('An error occurred');
-        // $logger->critical('I left the oven on!', array(
-        // include extra "context" info in your logs
-        // 'cause' => 'in_hurry',
     }
 
+    /**
+     * Send a GET request
+     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
     public function get($view,$params=null)
     {
         $params = ['query' => $params];
@@ -58,6 +70,12 @@ class APIRequest
         return $this->request('GET',$params);
     }
 
+    /**
+     * Send a POST request
+     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
     public function post($view,$params=null)
     {
         $params = ['form_params' => $params];
@@ -65,18 +83,55 @@ class APIRequest
         return $this->request('POST',$params);
     }
 
-    public function put()
+    /**
+     * Under construction
+     * Send a PUT request
+     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
+    public function put($view,$params=null)
     {
         return $this->request('PUT',$params);
     }
 
-    public function head()
+    /**
+     * Send a HEAD request - e.g. retrieves headers from endpoint
+     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
+    public function head($view,$params=null)
     {
+        $params = ['query' => $params];
+        $this->base_url = $this->base_url.$view;
         return $this->request('HEAD',$params);
     }
 
-    public function delete()
+    /**
+     * Send a DELETE request
+     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
+    public function delete($view,$params=null)
     {
+        $params = ['query' => $params];
+        $this->base_url = $this->base_url.$view;
+        return $this->request('DELETE',$params);
+    }
+
+    /**
+     * Under construction
+     * Send a PATCH request - e.g. modify a resource
+     * @param  string $view The Route that initialized this request (/action/PID/sub-action)
+     * @param  array $params Associative array of parameters
+     * @return object PSR-7 response object via Guzzle library
+     */
+    public function patch($view,$params=null)
+    {
+        $params = ['query' => $params];
+        $this->base_url = $this->base_url.$view;
         return $this->request('DELETE',$params);
     }
 }
