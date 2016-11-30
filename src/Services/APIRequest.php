@@ -84,18 +84,6 @@ class APIRequest
     }
 
     /**
-     * Under construction
-     * Send a PUT request
-     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
-     * @param  array $params Associative array of parameters
-     * @return object PSR-7 response object via Guzzle library
-     */
-    public function put($view,$params=null)
-    {
-        return $this->request('PUT',$params);
-    }
-
-    /**
      * Send a HEAD request - e.g. retrieves headers from endpoint
      * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
      * @param  array $params Associative array of parameters
@@ -108,30 +96,4 @@ class APIRequest
         return $this->request('HEAD',$params);
     }
 
-    /**
-     * Send a DELETE request
-     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
-     * @param  array $params Associative array of parameters
-     * @return object PSR-7 response object via Guzzle library
-     */
-    public function delete($view,$params=null)
-    {
-        $params = ['query' => $params];
-        $this->base_url = $this->base_url.$view;
-        return $this->request('DELETE',$params);
-    }
-
-    /**
-     * Under construction
-     * Send a PATCH request - e.g. modify a resource
-     * @param  string $view The Route that initialized this request (/action/PID/sub-action)
-     * @param  array $params Associative array of parameters
-     * @return object PSR-7 response object via Guzzle library
-     */
-    public function patch($view,$params=null)
-    {
-        $params = ['query' => $params];
-        $this->base_url = $this->base_url.$view;
-        return $this->request('DELETE',$params);
-    }
 }
