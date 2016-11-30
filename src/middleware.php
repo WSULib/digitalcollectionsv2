@@ -1,37 +1,36 @@
 <?php
 // Application middleware
-// Use to add one-off middlewares that will be run per route/group or invoking larger univeral middlewares
-// that reside elsewhere
+// Use this file to add closure middlewares to invoke class middleware that reside in the Service directory
 // e.g: $app->add(new \Slim\Csrf\Guard);
-
-// See https://github.com/codeguy/Slim-Extras/tree/master/Middleware
-
+// Remember that you can invoke middleware by chaining it after $app, a route, or a group
+// Keep $app invocations here to avoid cluttering up routes
 // Reference: http://www.slimframework.com/docs/concepts/middleware.html
 
-// Content Negotiation
 
 /**
- * Test Data Display - Route middleware
+ * Variable Middleware
+ * Exposes useful variables and makes them available to all routes
+ * Future development: retrieving current route info -- https://www.slimframework.com/docs/cookbook/retrieving-current-route.html 
+ * @param  \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
+ * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
+ * @param  callable                                 $next     Next middleware
  *
- * @param  \Slim\Http\Request 		$request  PSR7 request
- * @param  \Slim\Http\Response      $response PSR7 response
- * @param  callable                 $next     Next middleware
- *
- * @return \Slim\Http\Response
+ * @return \Psr\Http\Message\ResponseInterface
  */
 
 use \Slim\Http\Request;
 use \Slim\Http\Response;
+use Slim\App;
 
-$testMiddleware = function (Request $request, Response $response, $next) {
-    $response->getBody()->write('<pre>');
-    $response = $next($request, $response);
-    $response->getBody()->write('</pre>');
+$app->add(function (Request $request, Response $response, callable $next) {
+    $uri = $request->getUri();
+    $path = $uri->getPath();
 
-    return $response;
-};
+    $request = $request->withAttribute('path', $path);
+    $request = $request->withAttribute('uri', $uri);
 
-
+    return $next($request, $response);
+});
 
 /**
  * Media Type Parser Middleware
