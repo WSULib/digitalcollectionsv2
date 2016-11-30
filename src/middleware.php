@@ -42,7 +42,6 @@ $app->add(function (Request $request, Response $response, callable $next) {
  * @return \Psr\Http\Message\ResponseInterface
  */
 
-// Add the middleware
 // $app->add(function ($request, $response, $next) {
 //     // add media parser
 //     $request->registerMediaTypeParser(
@@ -54,3 +53,24 @@ $app->add(function (Request $request, Response $response, callable $next) {
 
 //     return $next($request, $response);
 // });
+
+/**
+ * PHP Debug Bar Middleware
+ * Uses https://github.com/php-middleware/phpdebugbar
+ * @param  \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
+ * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
+ * @param  callable                                 $next     Next middleware
+ *
+ * @return \Psr\Http\Message\ResponseInterface 
+ */
+$app->add(function (Request $request, Response $response, callable $next) use ($app) {
+
+	if ($request->getQueryParam('debug') == "true") {
+		$debug = $app->getContainer()->get('debugbar_middleware');
+		return $debug($request, $response, $next);
+	}
+	else {
+		return $next($request, $response);
+	}
+
+});
