@@ -36,19 +36,3 @@ $app->get('/item/{pid}/metadata', function ($request, $response, $args) {
     // seamlessly passes through JSON response and headers
     return $api;
 });
-
-
-// User
-$app->get('/login', function ($req, $response, $args) {
-    return $this->view->render($response, 'login.html', $args);
-});
-
-$app->get('/logout', function ($req, $response, $args) {
-    return $response->withStatus(302)->withHeader('Location', '/auth/logout');
-});
-
-$app->group('/auth', function () {
-    $this->map(['GET', 'POST'], '/login', 'App\controllers\AuthController:login');
-    $this->map(['GET', 'POST'], '/logout', 'App\controllers\AuthController:logout');
-    $this->map(['GET', 'POST'], '/signup', '');
-});
