@@ -17,14 +17,14 @@ $app->get('/search', function ($request, $response, $args) {
 
 // COLLECTIONS VIEW
 $app->get('/collections/[{pid}]', function ($request, $response, $args = []) {
-    $api = $this->APIRequest->get("/collections/$args[pid]",$request->getQueryParams());
+    $api = $this->APIRequest->get($request->getAttribute('path'),$request->getQueryParams());
     // $args['data'] = json_decode($api->getBody(), true);
     // return $this->view->render($response, 'search.html', $args);
-})->add($testMiddleware);
+});
 
 // SINGLE ITEM/RECORD VIEW
 $app->get('/item/{pid}', function ($request, $response, $args) {
-    $api = $this->APIRequest->get("/item/$args[pid]");
+    $api = $this->APIRequest->get($request->getAttribute('path'));
     $args['data'] = json_decode($api->getBody(), true);
     return $this->view->render($response, 'item.html', $args);
 });
