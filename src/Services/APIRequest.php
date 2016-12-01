@@ -2,7 +2,7 @@
 /**
  * APIRequest class
  * A direct method by which to communicate with the WSUDOR API. Harnesses Guzzle and Monolog to communicate and log activity.
- * Modeled after Eulfedora's HTTP_API_Base
+ * Modeled after Eulfedora's HTTP_API_Base, a 
  * @param  object $logger the logging interface
  * @param  object $client the guzzle client instance
  */
@@ -19,7 +19,12 @@ class APIRequest
     public $base_url = "http://192.168.42.5/WSUAPI";
     public $username;
     public $password;
-
+/**
+ * Constructor
+ * @param Logger $logger Monolog logging
+ * @param Client $client Guzzle Client
+ * @return void
+ */
     public function __construct(Logger $logger, Client $client)
     {
         // Future Stuff to do about sessions go here
@@ -31,11 +36,12 @@ class APIRequest
      * Make an HTTP request to WSUDOR API
      * Note: private method
      *
-     * @param  string $type An HTTP 1.1 Methods (GET, POST, etc)
+     * @param  string $type HTTP 1.1 Methods (GET, POST, etc)
      * @param  array|null $params an optional series of HTTP parameters
+     * @return object PSR-7 response object via Guzzle library
      */
 
-    private function request($type,$params=null)
+    private function request($type, $params = null)
     {
 
         // PLACEHOLDER to sniff out if debug flag was set
@@ -54,7 +60,6 @@ class APIRequest
         }
 
         return $response;
-
     }
 
     /**
@@ -63,11 +68,11 @@ class APIRequest
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function get($view,$params=null)
+    public function get($view, $params = null)
     {
         $params = ['query' => $params];
         $this->base_url = $this->base_url.$view;
-        return $this->request('GET',$params);
+        return $this->request('GET', $params);
     }
 
     /**
@@ -76,11 +81,11 @@ class APIRequest
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function post($view,$params=null)
+    public function post($view, $params = null)
     {
         $params = ['form_params' => $params];
         $this->base_url = $this->base_url.$view;
-        return $this->request('POST',$params);
+        return $this->request('POST', $params);
     }
 
     /**
@@ -89,11 +94,10 @@ class APIRequest
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function head($view,$params=null)
+    public function head($view, $params = null)
     {
         $params = ['query' => $params];
         $this->base_url = $this->base_url.$view;
-        return $this->request('HEAD',$params);
+        return $this->request('HEAD', $params);
     }
-
 }
