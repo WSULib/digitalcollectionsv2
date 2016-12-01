@@ -2,7 +2,7 @@
 /**
  * APIRequest class
  * A direct method by which to communicate with the WSUDOR API. Harnesses Guzzle and Monolog to communicate and log activity.
- * Modeled after Eulfedora's HTTP_API_Base, a 
+ * Modeled after Eulfedora's HTTP_API_Base
  * @param  object $logger the logging interface
  * @param  object $client the guzzle client instance
  */
