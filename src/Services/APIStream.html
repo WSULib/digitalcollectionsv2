@@ -1,0 +1,27 @@
+<?php
+/**
+ * APIStream class
+ * A direct method by which to communicate with the WSUDOR API and stream responses. Harnesses Guzzle and Monolog to communicate and log activity.
+ * @param  object $logger the logging interface
+ * @param  object $client the guzzle client instance
+ */
+
+namespace App\Services;
+
+use Monolog\Logger;
+use GuzzleHttp\Client;
+use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Exception\RequestException;
+
+class APIStream
+{
+
+	// pseudocode from http://docs.guzzlephp.org/en/latest/psr7.html#body
+	$response = $client->request('GET', 'http://httpbin.org/get');
+
+	echo $response->getBody()->read(4);
+	echo $response->getBody()->read(4);
+	echo $response->getBody()->read(1024);
+	var_export($response->eof());
+
+}
