@@ -35,13 +35,8 @@ $container['guzzle'] = function ($c) {
 };
 
 $container['APIRequest'] = function ($c) {
-    $API = new \App\Services\APIRequest($c['logger'],$c['guzzle']);
-    return $API; 
+    $API = new \App\Services\APIRequest($c['logger'], $c['guzzle']);
+    return $API;
 };
 
 $container['debugbar_middleware'] = new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();
-
-// $container['debugbar_middleware'] = function ($c) {
-//     $debug = new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware();
-//     return $debug; 
-// };

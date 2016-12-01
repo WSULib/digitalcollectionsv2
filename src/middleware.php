@@ -19,7 +19,7 @@
 
 use \Slim\Http\Request;
 use \Slim\Http\Response;
-// use Slim\App;
+use Slim\App;
 
 $app->add(function (Request $request, Response $response, callable $next) {
 
@@ -72,26 +72,18 @@ $app->add(function (Request $request, Response $response, callable $next) {
  * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
  * @param  callable                                 $next     Next middleware
  *
- * @return \Psr\Http\Message\ResponseInterface 
+ * @return \Psr\Http\Message\ResponseInterface
  */
 $app->add(function (Request $request, Response $response, callable $next) use ($app) {
 
-    $route = $request->getAttribute('route');
-    $name = $route->getName();
-    $groups = $route->getGroups();
-    $methods = $route->getMethods();
-    $arguments = $route->getArguments();
-    print_r($groups);
-    print_r($methods);
-    print_r($arguments);
 
     // Check for debug flag
-    // if ($request->getQueryParam('debug') == "true") {
-    //  $debug = $app->getContainer()->get('debugbar_middleware');
-    //  var_dump($debug);
-    //  // Wrap response
-    //  return $debug($request, $response, $next);
-    // }
+    if ($request->getQueryParam('debug') == "true") {
+        $debug = $app->getContainer()->get('debugbar_middleware');
+     // var_dump($debug);
+     // Wrap response
+        return $debug($request, $response, $next);
+    }
 
     // Invoke next middleware and return response
     return $next($request, $response);
@@ -113,7 +105,7 @@ $app->add(function (Request $request, Response $response, callable $next) {
         // to their non-trailing counterpart
         $uri = $uri->withPath(substr($path, 0, -1));
         
-        if($request->getMethod() == 'GET') {
+        if ($request->getMethod() == 'GET') {
             return $response->withRedirect((string)$uri, 301);
         }
         else {
