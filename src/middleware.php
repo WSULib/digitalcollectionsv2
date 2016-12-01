@@ -10,7 +10,6 @@
 /**
  * Variable Middleware
  * Exposes useful variables and makes them available to all routes
- * Future development: retrieving current route info -- https://www.slimframework.com/docs/cookbook/retrieving-current-route.html 
  * @param  \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
  * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
  * @param  callable                                 $next     Next middleware
@@ -20,12 +19,24 @@
 
 use \Slim\Http\Request;
 use \Slim\Http\Response;
-use Slim\App;
+// use Slim\App;
 
 $app->add(function (Request $request, Response $response, callable $next) {
+
+    $route = $request->getAttribute('route');
+    $name = $route->getName();
+    $groups = $route->getGroups();
+    $methods = $route->getMethods();
+    $arguments = $route->getArguments();
+
     $uri = $request->getUri();
     $path = $uri->getPath();
 
+
+    $request = $request->withAttribute('name', $name);
+    $request = $request->withAttribute('groups', $groups);
+    $request = $request->withAttribute('methods', $methods);
+    $request = $request->withAttribute('arguments', $arguments);
     $request = $request->withAttribute('path', $path);
     $request = $request->withAttribute('uri', $uri);
 
@@ -65,12 +76,50 @@ $app->add(function (Request $request, Response $response, callable $next) {
  */
 $app->add(function (Request $request, Response $response, callable $next) use ($app) {
 
-	if ($request->getQueryParam('debug') == "true") {
-		$debug = $app->getContainer()->get('debugbar_middleware');
-		return $debug($request, $response, $next);
-	}
-	else {
-		return $next($request, $response);
-	}
+    $route = $request->getAttribute('route');
+    $name = $route->getName();
+    $groups = $route->getGroups();
+    $methods = $route->getMethods();
+    $arguments = $route->getArguments();
+    print_r($groups);
+    print_r($methods);
+    print_r($arguments);
 
+    // Check for debug flag
+    // if ($request->getQueryParam('debug') == "true") {
+    //  $debug = $app->getContainer()->get('debugbar_middleware');
+    //  var_dump($debug);
+    //  // Wrap response
+    //  return $debug($request, $response, $next);
+    // }
+
+    // Invoke next middleware and return response
+    return $next($request, $response);
+});
+
+/**
+ * Redirects/rewrites URLs with a / to a non-trailing / equivalent
+ * @param  \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
+ * @param  \Psr\Http\Message\ResponseInterface      $response PSR7 response
+ * @param  callable                                 $next     Next middleware
+ *
+ * @return mixed
+ */
+$app->add(function (Request $request, Response $response, callable $next) {
+    $uri = $request->getUri();
+    $path = $uri->getPath();
+    if ($path != '/' && substr($path, -1) == '/') {
+        // permanently redirect paths with a trailing slash
+        // to their non-trailing counterpart
+        $uri = $uri->withPath(substr($path, 0, -1));
+        
+        if($request->getMethod() == 'GET') {
+            return $response->withRedirect((string)$uri, 301);
+        }
+        else {
+            return $next($request->withUri($uri), $response);
+        }
+    }
+
+    return $next($request, $response);
 });
