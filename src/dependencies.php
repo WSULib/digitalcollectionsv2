@@ -39,4 +39,9 @@ $container['APIRequest'] = function ($c) {
     return $API;
 };
 
-$container['debugbar_middleware'] = new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();
+$container['APIStream'] = function ($c) {
+    $API = new \App\Services\APIStream($c['logger'], $c['guzzle']);
+    return $API;
+};
+
+$container['debug'] = new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();

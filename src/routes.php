@@ -41,9 +41,9 @@ $app->get('/item/{pid}/metadata', function ($request, $response, $args) {
 // See https://www.slimframework.com/docs/objects/response.html#the-response-body
 // AV Stream
 $app->get('/item/{pid}/stream', function ($request, $response, $args) {
-    // $stream = $this->APIRequest->get($request->getAttribute('path'));
+    $stream = $this->APIStream->get("/item/$args[pid]");
     // $streamResponse = $response->withBody($stream);
-    // return $stream;
+    return $stream;
 });
 
 // Download Items

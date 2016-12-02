@@ -23,20 +23,20 @@ use Slim\App;
 
 $app->add(function (Request $request, Response $response, callable $next) {
 
-    $route = $request->getAttribute('route');
-    $name = $route->getName();
-    $groups = $route->getGroups();
-    $methods = $route->getMethods();
-    $arguments = $route->getArguments();
+    // $route = $request->getAttribute('route');
+    // $name = $route->getName();
+    // $groups = $route->getGroups();
+    // $methods = $route->getMethods();
+    // $arguments = $route->getArguments();
 
     $uri = $request->getUri();
     $path = $uri->getPath();
 
 
-    $request = $request->withAttribute('name', $name);
-    $request = $request->withAttribute('groups', $groups);
-    $request = $request->withAttribute('methods', $methods);
-    $request = $request->withAttribute('arguments', $arguments);
+    // $request = $request->withAttribute('name', $name);
+    // $request = $request->withAttribute('groups', $groups);
+    // $request = $request->withAttribute('methods', $methods);
+    // $request = $request->withAttribute('arguments', $arguments);
     $request = $request->withAttribute('path', $path);
     $request = $request->withAttribute('uri', $uri);
 
@@ -78,13 +78,14 @@ $app->add(function (Request $request, Response $response, callable $next) use ($
 
 
     // Check for debug flag
-    if ($request->getQueryParam('debug') == "true") {
-        $debug = $app->getContainer()->get('debugbar_middleware');
+    // if ($request->getQueryParam('debug') == "true") {
+        // echo "TRUE";
+        // $debug = $app->getContainer()->get('debug');
      // var_dump($debug);
      // Wrap response
-        return $debug($request, $response, $next);
-    }
-
+        // return $debug($request, $response, $next);
+    // }
+    // echo "FALSE";
     // Invoke next middleware and return response
     return $next($request, $response);
 });
