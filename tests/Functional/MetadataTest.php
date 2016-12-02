@@ -11,7 +11,7 @@ class MetadataTest extends BaseTestCase
  */
     public function testGetJSONMetadata()
     {
-        $response = $this->runApp('GET', '/item/wayne:EM02_90_88_1/metadata');
+        $response = $this->runApp('GET', '/item/wayne:vmc21804/metadata');
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertContains('application/json', (string)$response->getHeaderLine('Content-type'));
