@@ -45,16 +45,16 @@ class APIStream
 
     private function request($type, $params = null)
     {
+        // $this->base_url = "https://digital.library.wayne.edu/item/wayne:vmc21804/thumbnail/";
+        $response = $this->client->request($type, $this->base_url, $params);
 
-		// pseudocode from http://docs.guzzlephp.org/en/latest/psr7.html#body
-		$response = $this->client->request('GET', 'http://httpbin.org/get');
-
+        // pseudocode from http://docs.guzzlephp.org/en/latest/psr7.html#body
 		// echo $response->getBody()->read(4);
 		// echo $response->getBody()->read(4);
 		// echo $response->getBody()->read(1024);
 		// var_export($response->eof());
 
-        return $response;
+        // return $response;
     }
 
     /**
