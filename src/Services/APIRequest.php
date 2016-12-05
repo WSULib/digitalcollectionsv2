@@ -11,6 +11,8 @@ namespace App\Services;
 
 use Monolog\Logger;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 
 class APIRequest
