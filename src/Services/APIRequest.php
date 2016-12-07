@@ -18,7 +18,7 @@ use GuzzleHttp\Exception\RequestException;
 class APIRequest
 {
     protected $client;
-    public $base_url = "http://192.168.42.5/WSUAPI";
+    public $base_url;
     public $username;
     public $password;
 /**
@@ -27,8 +27,9 @@ class APIRequest
  * @param Client $client Guzzle Client
  * @return void
  */
-    public function __construct(Logger $logger, Client $client)
+    public function __construct(Logger $logger, Client $client, $api)
     {
+        $this->base_url = $api['url'];
         // Future Stuff to do about sessions go here
         $this->logger = $logger;
         $this->client = $client;

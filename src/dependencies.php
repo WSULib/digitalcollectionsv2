@@ -35,7 +35,7 @@ $container['guzzle'] = function ($c) {
 };
 
 $container['APIRequest'] = function ($c) {
-    $API = new \App\Services\APIRequest($c['logger'], $c['guzzle']);
+    $API = new \App\Services\APIRequest($c['logger'], $c['guzzle'], $c->get('settings')['API']);
     return $API;
 };
 
