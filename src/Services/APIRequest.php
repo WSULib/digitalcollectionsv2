@@ -18,7 +18,8 @@ use GuzzleHttp\Exception\RequestException;
 class APIRequest
 {
     protected $client;
-    public $base_url;
+    public $base_uri;
+    public $uri;
     public $username;
     public $password;
 /**
@@ -29,10 +30,11 @@ class APIRequest
  */
     public function __construct(Logger $logger, Client $client, $api)
     {
-        $this->base_url = $api['url'];
+        $this->uri = null;
         // Future Stuff to do about sessions go here
         $this->logger = $logger;
-        $this->client = $client;
+        // Instantiate a guzzle client with the base_uri already pointed to the API
+        $this->client = $client($api['url']);
     }
 
     /**
@@ -52,7 +54,8 @@ class APIRequest
 
         // logger interface logs activity; indicate log level through logger->info, error, or critical
         $start = microtime(true);
-        $response = $this->client->request($type, $this->base_url, $params);
+        $response = $this->client->request($type, $this->uri, $params);
+        return $this->client;
         $time_spent = microtime(true) - $start;
         $this->logger->info("Request took $time_spent");
 
@@ -67,40 +70,41 @@ class APIRequest
 
     /**
      * Send a GET request
-     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  string $uri  The Route that initialized this request (/action/PID/sub-action)
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function get($view, $params = null)
+    public function get($uri, $params = null)
     {
         $params = ['query' => $params];
-        $this->base_url = $this->base_url.$view;
-        return $this->request('GET', $params);
+        $this->uri = $uri;
+        return $this->client;
+        return $this->request('GET', $uri, $params);
     }
 
     /**
      * Send a POST request
-     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  string $uri  The Route that initialized this request (/action/PID/sub-action)
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function post($view, $params = null)
+    public function post($uri, $params = null)
     {
         $params = ['form_params' => $params];
-        $this->base_url = $this->base_url.$view;
+        $this->uri = $uri;
         return $this->request('POST', $params);
     }
 
     /**
      * Send a HEAD request - e.g. retrieves headers from endpoint
-     * @param  string $view  The Route that initialized this request (/action/PID/sub-action)
+     * @param  string $uri  The Route that initialized this request (/action/PID/sub-action)
      * @param  array $params Associative array of parameters
      * @return object PSR-7 response object via Guzzle library
      */
-    public function head($view, $params = null)
+    public function head($uri, $params = null)
     {
         $params = ['query' => $params];
-        $this->base_url = $this->base_url.$view;
+        $this->uri = $uri;
         return $this->request('HEAD', $params);
     }
 }

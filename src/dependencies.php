@@ -29,13 +29,22 @@ $container['view'] = function ($c) {
 };
 
 $container['guzzle'] = function ($c) {
+    if ($arg1) {
+        $request = new \GuzzleHttp\Client(['base_uri' => $arg1]);
+        return $request;
+    }
+
     $request = new \GuzzleHttp\Client();
 
     return $request;
 };
 
+$container['myService'] = function ($c) {
+    return function ($arg1) {echo $arg1; }
+};
+
 $container['APIRequest'] = function ($c) {
-    $API = new \App\Services\APIRequest($c['logger'], $c['guzzle'], $c->get('settings')['API']);
+    $API = new \App\Services\APIRequest($c['logger'], $c['guzzle']);
     return $API;
 };
 

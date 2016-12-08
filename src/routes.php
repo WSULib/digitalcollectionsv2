@@ -72,14 +72,16 @@ $app->get('/item/{pid}/{size}/download', function ($request, $response, $args) {
 
 
 
-// Catch all
-$app->get('/item/{pid}/[{path:.*}]', function ($request, $response, $args) {
-    echo "<pre>";
-    var_dump($request->getQueryParams());
-    echo "</pre>";
-    echo $args['pid'];
-    echo $request->getAttribute('path');
-    // $api = $this->APIRequest->get($request->getAttribute('path'));
+// Dynamic Route
+// Catches all /item/{pid}/* routes not already specified above sends request to API
+$app->get('/item/{pid}/[{params:.*}]', function ($request, $response, $args) {
+    // echo $request->getAttribute('path');
+    $api = $this->myService;
+    $api('testing');
+    echo $api;
+
+    // $api = $this->APIRequest->get($request->getAttribute('path'),$request->getQueryParams());
+    // var_dump($api);
     // $args['data'] = json_decode($api->getBody(), true);
     // return $this->view->render($response, 'item.html', $args);
 });
