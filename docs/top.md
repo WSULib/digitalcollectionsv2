@@ -17,15 +17,11 @@ Collections
 Search / Browse
 * route: /search
 
-User
-* route: /login
-* route: /logout
-* login / logout
-
 Single Item / Record
-* route: /item/[PID]
+* route: /item/{pid}
 
-
+Single Item / Catch All Route
+/item/{pid}/[{params:.*}]
 
 ## Plans:
-	Transparently convey API responses (when appropriate) and general frontend errors through a combination of HTTP Status Codes and human readable responses.
+	Transparently convey API responses (when appropriate) and general frontend errors through a combination of HTTP Status Codes and human readable renderings.
