@@ -16,7 +16,7 @@ $app->get('/search', function ($request, $response, $args) {
 });
 
 // COLLECTIONS VIEW
-$app->get('/collections[/{pid}]', function ($request, $response, $args = []) {
+$app->get('/collection[/{pid}]', function ($request, $response, $args = []) {
     $api = $this->APIRequest->get($request->getAttribute('path'),$request->getQueryParams());
     // $args['data'] = json_decode($api->getBody(), true);
     // return $this->view->render($response, 'search.html', $args);
@@ -68,4 +68,18 @@ $app->get('/item/{pid}/{size}/download', function ($request, $response, $args) {
 
     readfile($item);
     return $response;
+});
+
+
+
+// Catch all
+$app->get('/item/{pid}/[{path:.*}]', function ($request, $response, $args) {
+    echo "<pre>";
+    var_dump($request->getQueryParams());
+    echo "</pre>";
+    echo $args['pid'];
+    echo $request->getAttribute('path');
+    // $api = $this->APIRequest->get($request->getAttribute('path'));
+    // $args['data'] = json_decode($api->getBody(), true);
+    // return $this->view->render($response, 'item.html', $args);
 });
