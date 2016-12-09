@@ -28,13 +28,13 @@ class APIRequest
  * @param Client $client Guzzle Client
  * @return void
  */
-    public function __construct(Logger $logger, Client $client, $api)
+    public function __construct(Logger $logger, Client $client)
     {
         $this->uri = null;
         // Future Stuff to do about sessions go here
         $this->logger = $logger;
         // Instantiate a guzzle client with the base_uri already pointed to the API
-        $this->client = $client($api['url']);
+        $this->client = $client;
     }
 
     /**
@@ -54,7 +54,7 @@ class APIRequest
 
         // logger interface logs activity; indicate log level through logger->info, error, or critical
         $start = microtime(true);
-        $response = $this->client->request($type, $this->uri, $params);
+        $response = $this->client->request('GET', $this->uri);
         return $this->client;
         $time_spent = microtime(true) - $start;
         $this->logger->info("Request took $time_spent");
@@ -78,8 +78,7 @@ class APIRequest
     {
         $params = ['query' => $params];
         $this->uri = $uri;
-        return $this->client;
-        return $this->request('GET', $uri, $params);
+        return $this->request('GET', $params);
     }
 
     /**
